@@ -5,6 +5,8 @@ import { useOptionalUser } from "~/utils";
 
 export const meta: MetaFunction = () => [{ title: "Remix Notes" }];
 
+const spotifyLoginUrl = 'https://accounts.spotify.com/authorize?'; // Replace with the actual Spotify login URL
+
 export default function Index() {
   const user = useOptionalUser();
   return (
@@ -39,10 +41,10 @@ export default function Index() {
                 ) : (
                   <div className="space-y-4 sm:mx-auto sm:inline-grid sm:gap-5 sm:space-y-0">
                     <Link
-                      to="/login"
+                      to={spotifyLoginUrl}
                       className="flex items-center justify-center rounded-md bg-[#1ed760] px-4 py-3 font-medium text-[191414] hover:bg-[#1db954]"
                     >
-                      Log In To Spotify
+                      Login with Spotify
                     </Link>
                   </div>
                 )}
