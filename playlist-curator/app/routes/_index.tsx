@@ -1,11 +1,13 @@
 import type { MetaFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
-
 import { useOptionalUser } from "~/utils";
 
 export const meta: MetaFunction = () => [{ title: "Remix Notes" }];
 
-const spotifyLoginUrl = 'https://accounts.spotify.com/authorize?'; // Replace with the actual Spotify login URL
+const clientId = '707bf634189c4e8594a161f7ef9808a4'; // Replace with your Spotify client ID
+const redirectUri = encodeURIComponent('http://localhost:3000/auth/spotify/callback'); // Replace with your callback URL
+const scopes = 'user-read-private user-read-email'; // Add desired scopes
+const spotifyLoginUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes}&response_type=token&state=123`;
 
 export default function Index() {
   const user = useOptionalUser();
@@ -26,9 +28,8 @@ export default function Index() {
                   Playlist Curator
                 </span>
               </h1>
-              <p className="mx-auto mt-6 max-w-lg text-white bold text-xl text-black sm:max-w-3xl">
-                Check the README.md file for instructions on how to get this
-                project deployed.
+              <p className="flex mx-auto mt-6 max-w-lg text-white bold text-xl text-black sm:max-w-3xl justify-center">
+                Find your curated playlist.
               </p>
               <div className="mx-auto mt-10 max-w-sm sm:flex sm:max-w-none sm:justify-center">
                 {user ? (

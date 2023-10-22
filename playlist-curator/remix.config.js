@@ -1,24 +1,37 @@
-import path from "node:path";
+import path from 'node:path';
+import { fileURLToPath } from 'url';
+
+// Get the directory of the current module (ESM)
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 /** @type {import('@remix-run/dev').AppConfig} */
 export default {
-  cacheDirectory: "./node_modules/.cache/remix",
-  ignoredRouteFiles: ["**/.*", "**/*.test.{js,jsx,ts,tsx}"],
-  publicPath: "/_static/build/",
-  server: "server.ts",
-  serverBuildPath: "server/index.mjs",
-  serverModuleFormat: "esm",
-  routes: (defineRoutes) =>
-    defineRoutes((route) => {
-      if (process.env.NODE_ENV === "production") return;
+  cacheDirectory: './node_modules/.cache/remix',
+  ignoredRouteFiles: ['**/.*', '**/*.test.{js,jsx,ts,tsx}'],
+  publicPath: '/_static/build/',
+  server: 'server.ts',
+  serverBuildPath: 'server/index.mjs',
+  serverModuleFormat: 'esm',
+  getRoutes: async () => {
+    const routes = [];
 
-      console.log("⚠️  Test routes enabled.");
+    // Define your regular routes here
+    routes.push(
+      { path: '/', module: await import('./src/routes/Home.tsx') },
+      { path: '/callback', module: await import('./src/routes/Callback.tsx') }
+    );
 
-      const appDir = path.join(process.cwd(), "app");
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('⚠️ Test routes enabled.');
 
-      route(
-        "__tests/create-user",
-        path.relative(appDir, "cypress/support/test-routes/create-user.ts"),
-      );
-    }),
+      const appDir = path.join(__dirname, 'app');
+
+      routes.push({
+        path: '__tests/create-user',
+        module: await import(path.relative(appDir, 'cypress/support/test-routes/create-user.ts')),
+      });
+    }
+
+    return routes;
+  },
 };
