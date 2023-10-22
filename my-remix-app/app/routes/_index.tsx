@@ -14,7 +14,7 @@ export default function Index() {
           <div className="relative shadow-xl sm:overflow-hidden sm:rounded-2xl">
             <div className="absolute inset-0">
               <img
-                className="h-full w-full object-cover bg-[#1db954]"
+                className="h-full w-full object-cover bg-black"
               />
               <div className="absolute inset-0 bg-[color:rgba(255,56,56,0.5)] mix-blend-multiply" />
             </div>
@@ -24,7 +24,7 @@ export default function Index() {
                   Playlist Curator
                 </span>
               </h1>
-              <p className="mx-auto mt-6 max-w-lg text-center text-xl text-black sm:max-w-3xl">
+              <p className="mx-auto mt-6 max-w-lg text-white bold text-xl text-black sm:max-w-3xl">
                 Check the README.md file for instructions on how to get this
                 project deployed.
               </p>
@@ -37,18 +37,12 @@ export default function Index() {
                     View Notes for {user.email}
                   </Link>
                 ) : (
-                  <div className="space-y-4 sm:mx-auto sm:inline-grid sm:grid-cols-2 sm:gap-5 sm:space-y-0">
-                    <Link
-                      to="/join"
-                      className="flex items-center justify-center rounded-md border border-transparent bg-[#1ed760] px-4 py-3 text-base font-medium text-[191414] shadow-sm hover:bg-red-50 sm:px-8"
-                    >
-                      Sign up
-                    </Link>
+                  <div className="space-y-4 sm:mx-auto sm:inline-grid sm:gap-5 sm:space-y-0">
                     <Link
                       to="/login"
-                      className="flex items-center justify-center rounded-md bg-[#1ed760] px-4 py-3 font-medium text-[191414] hover:bg-red-600"
+                      className="flex items-center justify-center rounded-md bg-[#1ed760] px-4 py-3 font-medium text-[191414] hover:bg-[#1db954]"
                     >
-                      Log In
+                      Log In To Spotify
                     </Link>
                   </div>
                 )}
