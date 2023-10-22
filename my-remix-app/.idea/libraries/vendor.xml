@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="vendor">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/node_modules/@architect/hydrate/src/actions/autoinstall/python/py/vendor.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
