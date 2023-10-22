@@ -1,8 +1,9 @@
 import type { MetaFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 import { useOptionalUser } from "~/utils";
+import React, { useEffect, useState } from "react";
 
-import { SpotifyAPIController } from "~/routes/spotifyAPIController.tsx";
+import SpotifyAPIController from "~/api/spotifyAPIController.tsx";
 
 export const meta: MetaFunction = () => [{ title: "Remix Notes" }];
 
@@ -14,8 +15,8 @@ const spotifyLoginUrl = `https://accounts.spotify.com/authorize?client_id=${clie
 export default function Index() {
   const user = useOptionalUser();
   return (
-    //<SpotifyAPIController />
     <main className="relative min-h-screen bg-white sm:flex sm:items-center sm:justify-center">
+    <SpotifyAPIController />
       <div className="relative sm:pb-16 sm:pt-8">
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="relative shadow-xl sm:overflow-hidden sm:rounded-2xl">
