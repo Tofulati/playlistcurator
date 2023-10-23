@@ -42,7 +42,7 @@ Click this button to create a [Gitpod](https://gitpod.io) workspace with the pro
 - Start dev server:
 
   ```sh
-  npm run dev
+  npm run dev -- -p 3000
   ```
 
 This starts your app in development mode, rebuilding assets on file changes.
