@@ -3,7 +3,7 @@ import { Link } from "@remix-run/react";
 import { useOptionalUser } from "~/utils";
 import React, { useEffect, useState } from "react";
 
-import SpotifyAPIController from "~/api/spotifyAPIController.tsx";
+import { SpotifyAPIController } from "~/api/spotifyAPIController.tsx";
 
 export const meta: MetaFunction = () => [{ title: "Remix Notes" }];
 
@@ -13,10 +13,12 @@ const scopes = 'user-read-private user-read-email'; // Add desired scopes
 const spotifyLoginUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes}&response_type=token&state=123`;
 
 export default function Index() {
+const spotifyController = new SpotifyAPIController();
+
   const user = useOptionalUser();
+  //spotifyController.getSongArtist('5sdQOyqq2IDhvmx2lHOpwd');
   return (
     <main className="relative min-h-screen bg-white sm:flex sm:items-center sm:justify-center">
-    <SpotifyAPIController />
       <div className="relative sm:pb-16 sm:pt-8">
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="relative shadow-xl sm:overflow-hidden sm:rounded-2xl">
