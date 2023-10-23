@@ -1,6 +1,5 @@
 import { Link } from "@remix-run/react";
 import Songitem from "~/Components/Songitem.jsx";
-<<<<<<< HEAD
 import { useState, useEffect } from "react";
 import { getPlaylistTrackArtists } from "~/api/spotifyAPIController.js";
 
@@ -39,7 +38,6 @@ export default function PlaylistBox({ songs }) {
       </div>
     </div>
   );
-=======
 
 export default function Playlistbox({ songs }) {
     const handleInputChange = (e) => {
@@ -51,7 +49,7 @@ export default function Playlistbox({ songs }) {
         // Handle submit logic here
         console.log("Submitted");
     };
-
+  
     return (
       <div className="rounded-3xl p-8 ring-4 xl:p-4 ring-[#1ed760] hover:bg-gray-900 transition duration-300 cursor-pointer flex flex-col items-start justify-between h-[500px] flex-1">
         <div className="overflow-y-auto w-full flex-grow">
@@ -81,5 +79,4 @@ export default function Playlistbox({ songs }) {
 
       </div>
     );
->>>>>>> main
 }
