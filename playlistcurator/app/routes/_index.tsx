@@ -3,7 +3,7 @@ import { Link } from "@remix-run/react";
 import { useOptionalUser } from "~/utils";
 import { SpotifyAPIController } from "~/api/spotifyAPIController";
 
-export const meta: MetaFunction = () => [{ title: "Remix Notes" }];
+export const meta: MetaFunction = () => [{ title: "Playlist Curator" }];
 
 const clientId = "707bf634189c4e8594a161f7ef9808a4"; // Replace with your Spotify client ID
 const redirectUri = encodeURIComponent("http://localhost:3000/callback"); // Replace with your callback URL
@@ -14,7 +14,7 @@ export default function Index() {
   const spotifyController = new SpotifyAPIController();
 
   const user = useOptionalUser();
-  //spotifyController.getSongArtist('5sdQOyqq2IDhvmx2lHOpwd');
+  spotifyController.getSongArtist('5sdQOyqq2IDhvmx2lHOpwd');
   return (
     <main className="relative min-h-screen bg-white sm:flex sm:items-center sm:justify-center">
       <div className="relative sm:pb-16 sm:pt-8">
