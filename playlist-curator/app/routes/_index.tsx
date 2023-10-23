@@ -2,6 +2,7 @@ import type { MetaFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 import { getPlaylistTrackArtists } from "~/api/spotifyAPIController.js";
 import { useOptionalUser } from "~/utils";
+<<<<<<< HEAD
 
 export const meta: MetaFunction = () => [{ title: "Remix Notes" }];
 
@@ -10,11 +11,28 @@ const redirectUri = encodeURIComponent(
   "http://localhost:3000/auth/spotify/callback",
 ); // Replace with your callback URL
 const scopes = "user-read-private user-read-email"; // Add desired scopes
+=======
+import React, { useEffect, useState } from "react";
+
+import { SpotifyAPIController } from "~/api/spotifyAPIController.tsx";
+
+export const meta: MetaFunction = () => [{ title: "Remix Notes" }];
+
+const clientId = '707bf634189c4e8594a161f7ef9808a4'; // Replace with your Spotify client ID
+const redirectUri = encodeURIComponent('http://localhost:3000/callback'); // Replace with your callback URL
+const scopes = 'user-read-private user-read-email'; // Add desired scopes
+>>>>>>> main
 const spotifyLoginUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes}&response_type=token&state=123`;
 
 export default function Index() {
+const spotifyController = new SpotifyAPIController();
+
   const user = useOptionalUser();
+<<<<<<< HEAD
   console.log(getPlaylistTrackArtists("7eypSrxMD0YCIfwRKYtV4C"));
+=======
+  //spotifyController.getSongArtist('5sdQOyqq2IDhvmx2lHOpwd');
+>>>>>>> main
   return (
     <main className="relative min-h-screen bg-white sm:flex sm:items-center sm:justify-center">
       <div className="relative sm:pb-16 sm:pt-8">

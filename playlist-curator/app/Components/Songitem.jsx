@@ -1,4 +1,4 @@
-export default function SongItem({ number, image, artist, songName }) {
+export default function Songitem({ number, image, artist, songName }) {
     return (
       <div className="flex items-center hover:bg-gray-800 transition duration-30 p-2 rounded">
         <span className="text-gray-700 font-semibold text-xl w-4">{number}</span>
