@@ -1,5 +1,6 @@
 import type { MetaFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
+import { getPlaylistTrackArtists } from "~/api/spotifyAPIController.js";
 import { useOptionalUser } from "~/utils";
 import React, { useEffect, useState } from "react";
 
@@ -23,9 +24,7 @@ const spotifyController = new SpotifyAPIController();
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="relative shadow-xl sm:overflow-hidden sm:rounded-2xl">
             <div className="absolute inset-0">
-              <img
-                className="h-full w-full object-cover bg-black"
-              />
+              <img className="h-full w-full object-cover bg-black" />
               <div className="absolute inset-0 bg-[color:rgba(255,56,56,0.5)] mix-blend-multiply" />
             </div>
             <div className="relative px-4 pb-8 pt-16 sm:px-6 sm:pb-14 sm:pt-24 lg:px-8 lg:pb-20 lg:pt-32">
