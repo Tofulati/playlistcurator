@@ -1,7 +1,7 @@
 import type { MetaFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 import Navbar from "~/Components/Navbar.jsx";
-import Playlistbox from "~/Components/Playlistbox.jsx";
+import Playlistbox from "~/Components/PlaylistBox.jsx";
 
 import { useOptionalUser } from "~/utils";
 

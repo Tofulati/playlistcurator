@@ -1,4 +1,4 @@
-import Useritem from "~/Components/Useritem.jsx";
+import Useritem from "~/Components/UserItem.jsx";
 
 export default function Userlistbox({ Users }) {
   return (

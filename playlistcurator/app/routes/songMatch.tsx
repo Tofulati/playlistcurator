@@ -1,7 +1,7 @@
 import type { MetaFunction } from "@remix-run/node";
 import Navbar from "~/Components/Navbar";
 import BigMusic from "~/Components/BigMusic";
-import Userlistbox from "~/Components/Userlistbox";
+import Userlistbox from "~/Components/UserListBox";
 
 export const meta: MetaFunction = () => [{ title: "Remix Notes" }];
 
