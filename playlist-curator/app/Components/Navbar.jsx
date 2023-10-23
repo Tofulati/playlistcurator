@@ -11,12 +11,13 @@ export default function Navbar() {
         <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
           <div className="flex items-center">
             <a href="home" className="flex flex-col items-start ml-[-100px]">
-              <span className="text-4xl font-bold leading-none">PLAYLIST</span>
-              <span className="text-4xl font-bold leading-none mt-[-6px] ml-[12px]">CURATOR</span>
+              {/* <span className="text-4xl font-bold leading-none">PLAYLIST</span>
+              <span className="text-4xl font-bold leading-none mt-[-6px] ml-[12px]">CURATOR</span> */}
+              <img src="https://imageupload.io/ib/Kvlcn2Kt1HpeEF2_1698030177.png" alt="image not found" className="w-30 h-20"/>
             </a>
             <div className="hidden lg:flex lg:gap-x-12 ml-8">
-              <a href="Playlists" className="text-xl font-semibold leading-6 text-[#1ed760] hover:text-green-700 transition duration-300 px-4 py-2">Playlists</a>
-              <a href="Settings" className="text-xl font-semibold leading-6 text-[#1ed760] hover:text-green-700 transition duration-300 px-4 py-2">Settings</a>
+              <a href="UserGroup" className="text-xl font-semibold leading-6 text-[#1ed760] hover:text-green-700 transition duration-300 px-4 py-2">My Group</a>
+              <a href="SongMatch" className="text-xl font-semibold leading-6 text-[#1ed760] hover:text-green-700 transition duration-300 px-4 py-2">Song Match</a>
               <a href="About" className="text-xl font-semibold leading-6 text-[#1ed760] hover:text-green-700 transition duration-300 px-4 py-2">About</a>
             </div>
           </div>
