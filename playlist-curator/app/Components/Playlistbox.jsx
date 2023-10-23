@@ -1,13 +1,13 @@
 import { Link } from "@remix-run/react";
 import Songitem from "~/Components/Songitem.jsx";
 import { useState, useEffect } from "react";
-import { getPlaylistTrackArtists } from "~/api/spotifyAPIController.js";
+import { SpotifyAPIController } from "~/api/spotifyAPIController.tsx";
 
 export default function PlaylistBox({ songs }) {
   const [playlistArtists, setPlaylistArtists] = useState([]);
-
+  const spotifyController = new SpotifyAPIController();
   useEffect(() => {
-    setPlaylistArtists(getPlaylistTrackArtists());
+    setPlaylistArtists(spotifyController.getPlaylistTrackArtists());
   }, []);
 
   return (
@@ -39,7 +39,6 @@ export default function PlaylistBox({ songs }) {
     </div>
   );
 
-export default function Playlistbox({ songs }) {
     const handleInputChange = (e) => {
         // Handle input change if needed
         console.log(e.target.value);
