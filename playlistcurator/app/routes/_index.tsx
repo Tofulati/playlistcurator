@@ -14,7 +14,7 @@ export default function Index() {
   const spotifyController = new SpotifyAPIController();
 
   const user = useOptionalUser();
-  spotifyController.getSongArtist('5sdQOyqq2IDhvmx2lHOpwd');
+  //spotifyController.getSongArtist('5sdQOyqq2IDhvmx2lHOpwd');
   return (
     <main className="relative min-h-screen bg-white sm:flex sm:items-center sm:justify-center">
       <div className="relative sm:pb-16 sm:pt-8">

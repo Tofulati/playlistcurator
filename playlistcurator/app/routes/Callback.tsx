@@ -2,6 +2,7 @@
 
 import React, { useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
+import { SpotifyAPIController } from "~/api/spotifyAPIController";
 
 const Callback: React.FC = () => {
   const location = useLocation();
@@ -9,8 +10,9 @@ const Callback: React.FC = () => {
   useEffect(() => {
     // Parse the authentication token from the URL query parameters
     const params = new URLSearchParams(location.search);
-    const authToken = params.get("access_token");
-
+    const spotifyController = new SpotifyAPIController();
+    const authToken = spotifyController.getAccessToken();
+    //console.log(authToken);
     // Store the token in your preferred state management solution
     // For simplicity, we'll use local state here
     // if (authToken) {
