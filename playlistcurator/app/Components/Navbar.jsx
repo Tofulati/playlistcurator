@@ -1,12 +1,5 @@
 import { Link } from "@remix-run/react";
 
-const clientId = "707bf634189c4e8594a161f7ef9808a4"; // Replace with your Spotify client ID
-const redirectUri = encodeURIComponent(
-  "http://localhost:3000/auth/spotify/callback",
-); // Replace with your callback URL
-const scopes = "user-read-private user-read-email"; // Add desired scopes
-const spotifyLoginUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes}&response_type=token&state=123`;
-
 export default function Navbar() {
   return (
     <div className="bg-black text-[#1ed760]">
@@ -70,7 +63,7 @@ export default function Navbar() {
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
             <Link
-              to={spotifyLoginUrl}
+              to="/login"
               className="text-xl font-semibold leading-6 text-[#1ed760]"
             >
               Log in <span aria-hidden="true">&rarr;</span>
