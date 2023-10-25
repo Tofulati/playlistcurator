@@ -6,7 +6,7 @@ import { SpotifyAPIController } from "~/api/spotifyAPIController";
 export const meta: MetaFunction = () => [{ title: "Playlist Curator" }];
 
 const clientId = "707bf634189c4e8594a161f7ef9808a4"; // Replace with your Spotify client ID
-const redirectUri = encodeURIComponent("http://localhost:3000/callback"); // Replace with your callback URL
+const redirectUri = encodeURIComponent("http://localhost:3333/home"); // Replace with your callback URL
 const scopes = "user-read-private user-read-email"; // Add desired scopes
 const spotifyLoginUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes}&response_type=token&state=123`;
 
