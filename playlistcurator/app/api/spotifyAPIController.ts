@@ -1,3 +1,5 @@
+import { Buffer } from 'buffer';
+
 const CLIENT_ID = "707bf634189c4e8594a161f7ef9808a4";
 const CLIENT_SECRET = "56568d00ab634c5fa7f2d8a361b22de4";
 
@@ -5,6 +7,7 @@ export class SpotifyAPIController {
   constructor() {
     this.searchInput = "";
     this.accessToken = "";
+    this.authCode = "";
     this.artist = "";
     this.gotToken = false;
 
@@ -13,7 +16,30 @@ export class SpotifyAPIController {
     this.playlistTrackArtists = [];
   }
 
-  async getAccessToken() {
+  async getNewAuthAccessToken(auth_code){
+    const redirect_uri = 'http://localhost:3333/callback';
+    console.log("auth code: " + JSON.stringify(auth_code));
+    var authParams = {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded',
+        'Authorization': 'Basic ' + btoa(CLIENT_ID + ':' + CLIENT_SECRET),
+      },
+      form:
+        'grant_type=authorization_code&code=' + auth_code + '&redirect_uri=' + redirect_uri,
+    };
+    console.log(auth_code);
+    const res = await fetch("https://accounts.spotify.com/api/token", authParams)
+      .then((res) => res.json())
+      .then((data) => {
+        this.accessToken = data.access_token;
+      });
+    console.log("post request auth" + auth_code);
+    console.log("auth access token func " + this.accessToken);
+    return this.accessToken;
+  }
+
+  async getNewAccessToken() {
     var authParams = {
       method: "POST",
       headers: {
@@ -30,17 +56,25 @@ export class SpotifyAPIController {
       .then((data) => {
         this.accessToken = data.access_token;
       });
-    console.log("acces token func " + this.accessToken);
+    console.log("access token func " + this.accessToken);
+  }
+
+  setAccessToken(token){
+    this.accessToken = token;
+  }
+
+  getAccessToken(){
+    return this.accessToken;
   }
 
   async getSong(trackEndPoint) {
-    await this.getAccessToken();
+    await this.getNewAccessToken();
     console.log("song func " + this.accessToken);
     var result = await fetch(
       `https://api.spotify.com/v1/tracks/${trackEndPoint}`,
       {
         method: "GET",
-        headers: { Authorization: "Bearer " + this.accessToken },
+        headers: { Authorization: "Bearer " + this.accessToken},
       },
     )
       .then((res) => res.json())
@@ -48,7 +82,7 @@ export class SpotifyAPIController {
   }
 
   async getSongArtist(trackEndPoint) {
-    await this.getAccessToken();
+    await this.getNewAccessToken();
     const result = await fetch(
       `https://api.spotify.com/v1/tracks/${trackEndPoint}`,
       {
@@ -61,7 +95,7 @@ export class SpotifyAPIController {
   }
 
   async getArtist(artistEndPoint) {
-    await this.getAccessToken();
+    await this.getNewAccessToken();
     const result = await fetch(
       `https://api.spotify.com/v1/artists/${artistEndPoint}`,
       {
@@ -74,7 +108,7 @@ export class SpotifyAPIController {
   }
 
   async getArtistGenre(artistEndPoint) {
-    await this.getAccessToken();
+    await this.getNewAccessToken();
     const result = await fetch(
       `https://api.spotify.com/v1/artists/${artistEndPoint}`,
       {
@@ -87,7 +121,7 @@ export class SpotifyAPIController {
   }
 
   async getTrackCover(trackEndPoint) {
-    await this.getAccessToken();
+    await this.getNewAccessToken();
     const result = await fetch(
       `https://api.spotify.com/v1/tracks/${trackEndPoint}`,
       {
@@ -100,7 +134,7 @@ export class SpotifyAPIController {
   }
 
   async getPlaylist(playlistEndPoint) {
-    await this.getAccessToken();
+    await this.getNewAccessToken();
     const result = await fetch(
       `https://api.spotify.com/v1/playlists/${playlistEndPoint}`,
       {
@@ -113,7 +147,7 @@ export class SpotifyAPIController {
   }
 
   async getPlaylistTracks(playlistEndPoint) {
-    await this.getAccessToken();
+    await this.getNewAccessToken();
     const result = await fetch(
       `https://api.spotify.com/v1/playlists/${playlistEndPoint}`,
       {
@@ -126,7 +160,7 @@ export class SpotifyAPIController {
   }
 
   async getPlaylistTrackNames(playlistEndPoint) {
-    await this.getAccessToken();
+    await this.getNewAccessToken();
     const result = await fetch(
       `https://api.spotify.com/v1/playlists/${playlistEndPoint}`,
       {
@@ -144,7 +178,7 @@ export class SpotifyAPIController {
   }
 
   async getPlaylistTrackArtists(playlistEndPoint) {
-    await this.getAccessToken();
+    await this.getNewAccessToken();
     const result = await fetch(
       `https://api.spotify.com/v1/playlists/${playlistEndPoint}`,
       {
@@ -163,7 +197,7 @@ export class SpotifyAPIController {
   }
 
   async getPlaylistTrackCovers(playlistEndPoint) {
-    await this.getAccessToken();
+    await this.getNewAccessToken();
     const result = await fetch(
       `https://api.spotify.com/v1/playlists/${playlistEndPoint}`,
       {
@@ -180,4 +214,19 @@ export class SpotifyAPIController {
         }
       });
   }
+  async getCurrentUser(access_token) {
+      //await this.getNewAuthAccessToken(auth_code);
+      //console.log("current user " + JSON.stringify(accessoken));
+      var result = await fetch(
+        `https://api.spotify.com/v1/me`,
+        {
+          method: "GET",
+          headers: {
+          'Authorization': 'Bearer ' + access_token,
+          },
+        },
+      )
+        .then((res) => res.json())
+        .then((data) => console.log(data));
+    }
 }

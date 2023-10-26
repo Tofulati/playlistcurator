@@ -9,9 +9,31 @@ const Callback: React.FC = () => {
 
   useEffect(() => {
     // Parse the authentication token from the URL query parameters
-    const params = new URLSearchParams(location.search);
+
+    const parsedUrl = new URL(window.location);
+    //console.log(parsedUrl.searchParams.get("code"));
+
+    /*
+    const url = window.location.hash;
+    const searchParams = url.substring(1);
+    console.log(searchParams);
+    var access_token = url.match(/\#(?:access_token)\=([\S\s]*?)\&/)[1];
+    console.log(access_token);
+    */
+
+    const authCode = parsedUrl.searchParams.get("access_token");
+    console.log(authCode);
+    //console.log(access_token);
     const spotifyController = new SpotifyAPIController();
-    const authToken = spotifyController.getAccessToken();
+    var access_token = spotifyController.getNewAuthAccessToken(authCode);
+    //console.log(spotifyController.getNewAuthAccessToken(authCode));
+    spotifyController.getCurrentUser("BQAOd2CHEdkom6EEPwVIgas5sKADPL6HtTvbtdQYDZbbfwMEeEC8VcVgqqjXxZJUJNEBoQNE8NiSDyFYErXYGgWTDCB6gHeS9F1acIr7fkvjxvoI6tuSkWviZRaduJ55vjRwn62pVAF07UCJIvmQyvyDUl3kEaTgshpsoFJcm2P6PSyA6hhdeFpGPG7NvNJRB2NyvdAY22lu0Ng_fyGcBr70aOj7f6KqL46HFXVrhbeA5TbTqH5qdLXeEBUjNL45EjM");
+    //spotifyController.getCurrentUser(access_token);
+    //spotifyController.setAccessToken(access_token);
+    //console.log(spotifyController.getAccessToken());
+    //spotifyController.getSong('5sdQOyqq2IDhvmx2lHOpwd');
+    //console.log(access_token);
+    //const authToken = spotifyController.getAccessToken();
     //console.log(authToken);
     // Store the token in your preferred state management solution
     // For simplicity, we'll use local state here

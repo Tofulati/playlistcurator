@@ -4,17 +4,31 @@ import { useOptionalUser } from "~/utils";
 import { SpotifyAPIController } from "~/api/spotifyAPIController";
 
 export const meta: MetaFunction = () => [{ title: "Playlist Curator" }];
+var generateRandomString = function(length) {
+  var text = '';
+  var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-const clientId = "707bf634189c4e8594a161f7ef9808a4"; // Replace with your Spotify client ID
+  for (var i = 0; i < length; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+  return text;
+};
+
+const clientId = encodeURIComponent("707bf634189c4e8594a161f7ef9808a4") // Replace with your Spotify client ID
+var redirect_uri_staging = '/callback'
+var state = generateRandomString(16);
+var scope = encodeURIComponent('user-read-private user-read-email');
+
 const redirectUri = encodeURIComponent("http://localhost:3333/callback"); // Replace with your callback URL
-const scopes = "user-read-private user-read-email"; // Add desired scopes
-const spotifyLoginUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes}&response_type=token&state=123`;
+const scopes = encodeURIComponent("user-read-private user-read-email playlist-read-private"); // Add desired scopes
+const spotifyLoginUrl = `https://accounts.spotify.com/authorize?response_type=token&client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes}&state=123`;
 
 export default function Index() {
   const spotifyController = new SpotifyAPIController();
 
   const user = useOptionalUser();
   //spotifyController.getSongArtist('5sdQOyqq2IDhvmx2lHOpwd');
+  //console.log(spotifyController.getCurrentUser());
   return (
     <main className="relative min-h-screen bg-white sm:flex sm:items-center sm:justify-center">
       <div className="relative sm:pb-16 sm:pt-8">
