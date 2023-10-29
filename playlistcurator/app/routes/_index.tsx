@@ -2,6 +2,7 @@ import type { MetaFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 import { useOptionalUser } from "~/utils";
 import { SpotifyAPIController } from "~/api/spotifyAPIController";
+import Login from "~/Components/Login.jsx";
 
 export const meta: MetaFunction = () => [{ title: "Playlist Curator" }];
 var generateRandomString = function(length) {
@@ -14,23 +15,23 @@ var generateRandomString = function(length) {
   return text;
 };
 
-const clientId = encodeURIComponent("707bf634189c4e8594a161f7ef9808a4") // Replace with your Spotify client ID
+const clientId = "4b458524a1dc49dc9ebb2c418ee5be32" // Replace with your Spotify client ID
 var redirect_uri_staging = '/callback'
 var state = generateRandomString(16);
-var scope = encodeURIComponent('user-read-private user-read-email');
+var scope = 'user-read-private user-read-email';
 
-const redirectUri = encodeURIComponent("http://localhost:3333/callback"); // Replace with your callback URL
-const scopes = encodeURIComponent("user-read-private user-read-email playlist-read-private"); // Add desired scopes
-const spotifyLoginUrl = `https://accounts.spotify.com/authorize?response_type=token&client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes}&state=123`;
+const redirectUri = "http://localhost:3333/callback"; // Replace with your callback URL
+const scopes = "user-read-private user-read-email playlist-read-private"; // Add desired scopes
+const spotifyLoginUrl = `https://accounts.spotify.com/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes}&state=123`;
 
 export default function Index() {
-  const spotifyController = new SpotifyAPIController();
 
   const user = useOptionalUser();
   //spotifyController.getSongArtist('5sdQOyqq2IDhvmx2lHOpwd');
   //console.log(spotifyController.getCurrentUser());
   return (
     <main className="relative min-h-screen bg-white sm:flex sm:items-center sm:justify-center">
+      <Login />
       <div className="relative sm:pb-16 sm:pt-8">
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="relative shadow-xl sm:overflow-hidden sm:rounded-2xl">
@@ -48,14 +49,7 @@ export default function Index() {
                 Find your curated playlist.
               </p>
               <div className="mx-auto mt-10 max-w-sm sm:flex sm:max-w-none sm:justify-center">
-                {user ? (
-                  <Link
-                    to="/notes"
-                    className="flex items-center justify-center rounded-md border border-transparent bg-white px-4 py-3 text-base font-medium text-red-700 shadow-sm hover:bg-red-50 sm:px-8"
-                  >
-                    View Notes for {user.email}
-                  </Link>
-                ) : (
+
                   <div className="space-y-4 sm:mx-auto sm:inline-grid sm:gap-5 sm:space-y-0">
                     <Link
                       to={spotifyLoginUrl}
@@ -64,7 +58,7 @@ export default function Index() {
                       Login with Spotify
                     </Link>
                   </div>
-                )}
+
               </div>
             </div>
           </div>

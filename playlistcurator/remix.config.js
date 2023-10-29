@@ -12,6 +12,18 @@ export default {
     modules: {
         buffer: true, // Provide a JSPM polyfill
         fs: "empty", // Provide an empty polyfill
+        util: true,
+        punycode: true,
+        querystring: true,
+        events: true,
+        crypto: true,
+        https: true,
+        http: true,
+        http2: true,
+        stream: true,
+        assert: true,
+        zlib: true,
+        path: true,
       },
       globals: {
         Buffer: true,
