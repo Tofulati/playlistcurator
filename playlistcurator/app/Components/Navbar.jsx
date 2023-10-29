@@ -32,10 +32,10 @@ export default function Navbar() {
                 Song Match
               </a>
               <a
-                href="About"
+                href="UserNodeAnimation"
                 className="text-xl font-semibold leading-6 text-[#1ed760] hover:text-green-700 transition duration-300 px-4 py-2"
               >
-                About
+                User Chart
               </a>
             </div>
           </div>
