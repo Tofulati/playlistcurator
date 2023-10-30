@@ -13,12 +13,35 @@ export default function UserNodeAnimation() {
     const svg = d3.select(svgRef.current).attr("width", w).attr("height", h);
 
     const friction = 0.95;
-    const waves = [];
+
+    interface Wave {
+      radius: number;
+      opacity: number;
+      strokeWidth: number;
+    }
+    const waves: Wave[] = [];
+
     const songCircle = { x: w / 2, y: h / 2, radius: 60, dx: 0, dy: 0 }
     svg.selectAll("*").remove();
 
+    interface Circle {
+      x: number;
+      y: number;
+      radius: number;
+      dx: number;
+      dy: number;
+      ddx: number;
+      ddy: number;
+      target: {
+        x: number;
+        y: number;
+      };
+    }
+    
+    const circles: Circle[] = [];
+    
+
     //gerenate user circles.
-    const circles = [];
     for (let i = 0; i < 20; i++) {
       circles.push({
         x: Math.random() * w,
@@ -41,12 +64,12 @@ export default function UserNodeAnimation() {
 
     //glow filter
     const glowFilter = svg.append("defs")
-    .append("filter")
-    .attr("id", "glowFilter")
-    .attr("x", "-50%")       
-    .attr("y", "-50%")       
-    .attr("width", "200%")   
-    .attr("height", "200%");    
+      .append("filter")
+      .attr("id", "glowFilter")
+      .attr("x", "-50%")
+      .attr("y", "-50%")
+      .attr("width", "200%")
+      .attr("height", "200%");
     glowFilter.append("feGaussianBlur").attr("stdDeviation", 8).attr("result", "coloredBlur");
     glowFilter.append("feMerge").selectAll("feMergeNode").data(["coloredBlur", "SourceGraphic"]).enter().append("feMergeNode").attr("in", d => d);
 
@@ -57,9 +80,9 @@ export default function UserNodeAnimation() {
       .enter()
       .append("circle")
       .classed("regularCircle", true)  // Assign a class for these circles
-      .attr("cx", d => d.x)
-      .attr("cy", d => d.y)
-      .attr("r", d => d.radius)
+      .attr("cx", (d:Circle) => d.x)
+      .attr("cy", (d:Circle) => d.y)
+      .attr("r", (d:Circle) => d.radius)
       .attr("fill", "#1DB954")
       .attr("filter", "url(#glowFilter)")
       .call(d3.drag()
@@ -72,14 +95,14 @@ export default function UserNodeAnimation() {
       .enter()
       .append("text")
       .classed("circleText", true)
-      .attr("x", d => d.x)
-      .attr("y", d => d.y)
+      .attr("x", (d:Circle) => d.x)
+      .attr("y", (d:Circle) => d.y)
       .style("pointer-events", "none")
       .attr("text-anchor", "middle")  // To center the text on the circle
       .attr("dy", ".35em")  // To vertically center the text on the circle
       .attr("fill", "white")  // Setting the text color to white
 
-      .attr("font-size", d => {
+      .attr("font-size", (d:Circle) => {
         const nameLength = names[circles.indexOf(d)].length;
         return `${d.radius / nameLength * 3}px`;// fit texts into circle
       })
@@ -125,8 +148,8 @@ export default function UserNodeAnimation() {
       const maxRadius = h * 0.2;
 
       const angle = Math.random() * 2 * Math.PI;
-      // const radius = Math.sqrt(Math.random()) * maxRadius;
-      const radius = maxRadius;
+      const radius = Math.sqrt(Math.random()) * maxRadius;
+      // const radius = maxRadius;
 
 
       const x = centerX + radius * Math.cos(angle);
@@ -136,7 +159,7 @@ export default function UserNodeAnimation() {
     }
 
     //accerlate green circles
-    function setDirectionTowardsTarget(circle) {
+    function setDirectionTowardsTarget(circle: Circle) {
       const diffx = circle.target.x - circle.x;
       const diffy = circle.target.y - circle.y;
       const distance = Math.sqrt(diffx * diffx + diffy * diffy);
@@ -156,7 +179,7 @@ export default function UserNodeAnimation() {
     }
 
     //computer centerof mass
-    function centerOfMass(circles) {
+    function centerOfMass(circles: Circle) {
       let totalX = 0;
       let totalY = 0;
       for (let circle of circles) {
@@ -246,116 +269,116 @@ export default function UserNodeAnimation() {
       }
     }
 
-      function boundaryConditions(circle) {
-        if (circle.x + circle.radius > w) {
-          circle.x = w - circle.radius;
-          circle.dx *= -1;
-          circle.ddx *= -1;
+    function boundaryConditions(circle) {
+      if (circle.x + circle.radius > w) {
+        circle.x = w - circle.radius;
+        circle.dx *= -1;
+        circle.ddx *= -1;
 
-        }
-        if (circle.y + circle.radius > h) {
-          circle.y = h - circle.radius;
-          circle.dy *= -1;
-          circle.ddy *= -1;
-
-        }
-        if (circle.x - circle.radius < 0) {
-          circle.x = circle.radius;
-          circle.dx *= -1;
-          circle.ddx *= -1;
-
-        }
-        if (circle.y - circle.radius < 0) {
-          circle.y = circle.radius;
-          circle.dy *= -1;
-          circle.ddy *= -1;
-
-        }
       }
-  
-      function drawConnections() {
-        for (let i = 0; i < circles.length; i++) {
-          for (let j = i + 1; j < circles.length; j++) {
-            const circle = circles[i];
-            const otherCircle = circles[j];
-  
-            const diffx = circle.x - otherCircle.x;
-            const diffy = circle.y - otherCircle.y;
-            const distance = diffx * diffx + diffy * diffy;
-            if (distance <= 20000) {
-              svg.append("line")
-                .attr("x1", circle.x)
-                .attr("y1", circle.y)
-                .attr("x2", otherCircle.x)
-                .attr("y2", otherCircle.y)
-                .attr("stroke", "#1DB954")
-                .attr("stroke-width", 4)
-                .style("stroke-opacity", 0.8 - distance / 25000)
-              // .style("stroke-dasharray", `${(1 - distance / 20000) ** 2 * 100 + 1}, 2`);
-  
-              const overlap = circle.radius + otherCircle.radius - Math.sqrt(distance);
-  
-              if (overlap > 0) {
-                const moveBy = overlap / 2;
-                const angle = Math.atan2(diffy, diffx);
-  
-                // Calculate normal and tangent vectors at the point of collision
-                const nx = Math.cos(angle);
-                const ny = Math.sin(angle);
-                const tx = -ny;
-                const ty = nx;
-  
-                // Decompose the velocities into components along the normal and tangent vectors
-                const dp1n = circle.dx * nx + circle.dy * ny;
-                const dp1t = circle.dx * tx + circle.dy * ty;
-                const dp2n = otherCircle.dx * nx + otherCircle.dy * ny;
-                const dp2t = otherCircle.dx * tx + otherCircle.dy * ty;
-  
-                // Swap the normal components of the velocities
-                const m1 = Math.PI * circle.radius * circle.radius;  // Assuming uniform density
-                const m2 = Math.PI * otherCircle.radius * otherCircle.radius;
-                const v1n = (dp1n * (m1 - m2) + 2 * m2 * dp2n) / (m1 + m2);
-                const v2n = (dp2n * (m2 - m1) + 2 * m1 * dp1n) / (m1 + m2);
+      if (circle.y + circle.radius > h) {
+        circle.y = h - circle.radius;
+        circle.dy *= -1;
+        circle.ddy *= -1;
 
-circle.ddx *= nx;
-circle.ddy *= ny;
-otherCircle.ddx *= nx;
-otherCircle.ddy *= ny;
-  
-                // Recompose the velocities from the swapped and untouched components
-                circle.dx = tx * dp1t + nx * v1n;
-                circle.dy = ty * dp1t + ny * v1n;
-                otherCircle.dx = tx * dp2t + nx * v2n;
-                otherCircle.dy = ty * dp2t + ny * v2n;
-  
-                // Separate the overlapping circles
-                circle.x += moveBy * nx;
-                circle.y += moveBy * ny;
-                otherCircle.x -= moveBy * nx;
-                otherCircle.y -= moveBy * ny;
-  
-                // Update the circles array
-                circles[i] = circle;
-                circles[j] = otherCircle;
-              }
-  
-              if (distance <= 19000) {
-                circle.ddx += diffx / distance / 50;
-                circle.ddy += diffy / distance / 50;
-                otherCircle.ddx -= diffx / distance / 50;
-                otherCircle.ddy -= diffy / distance / 50;
-              }
-              else if (distance > 19000) {
-                circle.ddx -= diffx / distance / 1300;
-                circle.ddy -= diffy / distance / 1300;
-                otherCircle.ddx += diffx / distance / 1300;
-                otherCircle.ddy += diffy / distance / 1300;
-              }
-  
+      }
+      if (circle.x - circle.radius < 0) {
+        circle.x = circle.radius;
+        circle.dx *= -1;
+        circle.ddx *= -1;
+
+      }
+      if (circle.y - circle.radius < 0) {
+        circle.y = circle.radius;
+        circle.dy *= -1;
+        circle.ddy *= -1;
+
+      }
+    }
+
+    function drawConnections() {
+      for (let i = 0; i < circles.length; i++) {
+        for (let j = i + 1; j < circles.length; j++) {
+          const circle = circles[i];
+          const otherCircle = circles[j];
+
+          const diffx = circle.x - otherCircle.x;
+          const diffy = circle.y - otherCircle.y;
+          const distance = diffx * diffx + diffy * diffy;
+          if (distance <= 20000) {
+            svg.append("line")
+              .attr("x1", circle.x)
+              .attr("y1", circle.y)
+              .attr("x2", otherCircle.x)
+              .attr("y2", otherCircle.y)
+              .attr("stroke", "#1DB954")
+              .attr("stroke-width", 4)
+              .style("stroke-opacity", 0.8 - distance / 25000)
+            // .style("stroke-dasharray", `${(1 - distance / 20000) ** 2 * 100 + 1}, 2`);
+
+            const overlap = circle.radius + otherCircle.radius - Math.sqrt(distance);
+
+            if (overlap > 0) {
+              const moveBy = overlap / 2;
+              const angle = Math.atan2(diffy, diffx);
+
+              // Calculate normal and tangent vectors at the point of collision
+              const nx = Math.cos(angle);
+              const ny = Math.sin(angle);
+              const tx = -ny;
+              const ty = nx;
+
+              // Decompose the velocities into components along the normal and tangent vectors
+              const dp1n = circle.dx * nx + circle.dy * ny;
+              const dp1t = circle.dx * tx + circle.dy * ty;
+              const dp2n = otherCircle.dx * nx + otherCircle.dy * ny;
+              const dp2t = otherCircle.dx * tx + otherCircle.dy * ty;
+
+              // Swap the normal components of the velocities
+              const m1 = Math.PI * circle.radius * circle.radius;  // Assuming uniform density
+              const m2 = Math.PI * otherCircle.radius * otherCircle.radius;
+              const v1n = (dp1n * (m1 - m2) + 2 * m2 * dp2n) / (m1 + m2);
+              const v2n = (dp2n * (m2 - m1) + 2 * m1 * dp1n) / (m1 + m2);
+
+              circle.ddx *= nx;
+              circle.ddy *= ny;
+              otherCircle.ddx *= nx;
+              otherCircle.ddy *= ny;
+
+              // Recompose the velocities from the swapped and untouched components
+              circle.dx = tx * dp1t + nx * v1n;
+              circle.dy = ty * dp1t + ny * v1n;
+              otherCircle.dx = tx * dp2t + nx * v2n;
+              otherCircle.dy = ty * dp2t + ny * v2n;
+
+              // Separate the overlapping circles
+              circle.x += moveBy * nx;
+              circle.y += moveBy * ny;
+              otherCircle.x -= moveBy * nx;
+              otherCircle.y -= moveBy * ny;
+
+              // Update the circles array
+              circles[i] = circle;
+              circles[j] = otherCircle;
             }
+
+            if (distance <= 19000) {
+              circle.ddx += diffx / distance / 50;
+              circle.ddy += diffy / distance / 50;
+              otherCircle.ddx -= diffx / distance / 50;
+              otherCircle.ddy -= diffy / distance / 50;
+            }
+            else if (distance > 19000) {
+              circle.ddx -= diffx / distance / 1300;
+              circle.ddy -= diffy / distance / 1300;
+              otherCircle.ddx += diffx / distance / 1300;
+              otherCircle.ddy += diffy / distance / 1300;
+            }
+
           }
         }
       }
+    }
 
     function dragstarted(event, d) {
       d3.select(this).raise().attr("stroke", "black");
@@ -412,7 +435,7 @@ otherCircle.ddy *= ny;
           .attr("stroke-width", wave.strokeWidth)
           .attr("stroke-opacity", wave.opacity)
           .attr("filter", "url(#blurFilter)")
-          
+
           ;
         if (wave.opacity <= 0) {
           waves.splice(index, 1);
