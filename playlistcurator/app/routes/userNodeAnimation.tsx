@@ -6,6 +6,8 @@ import * as d3 from "d3";
 export default function UserNodeAnimation() {
   const svgRef = useRef(null);
 
+  const names = ["Abby", "Patrick", "Hajin", "Albert", "Sophia", "Liam", "Olivia", "Ava", "Mason", "James", "Ella", "Lucas", "Mia", "Charlotte", "Benjamin", "Amelia", "Harper", "Evelyn", "David", "Madison"];
+
   useEffect(() => {
     //set canvas size
     const w = window.innerWidth * 0.8;
@@ -449,10 +451,15 @@ otherCircle.ddy *= ny;
       <Navbar />
       <div style={{ backgroundColor: '#000000', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <svg ref={svgRef} style={{
-          backgroundColor: '#212121',
+          backgroundColor: '#000000',
           display: 'block',
           margin: 'auto'
         }}></svg>
-      </div></div>
+      </div>
+        <div className="flex text-[#1eb760] justify-center">
+          Your friends:
+          {names.map(o => <p key={o}>{o}</p>)}
+        </div>
+    </div>
   );
 }
