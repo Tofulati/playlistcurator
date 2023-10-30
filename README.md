@@ -26,7 +26,7 @@ At Playlist Curator, we believe that every song tells a story, and every story h
    ```git clone https://github.com/Tofulati/playlistcurator.git```
 2. Download the required libraries
    ```npm install```
-   *If this does not work you will have to ```npm install {library}``` for all the required libraries listed as an error*
+   - If this does not work you will have to ```npm install {library}``` for all the required libraries listed as an error
 3. Run the app
    ```npm run dev```
 4. Open the app link in your browser [ctrl + click] 
