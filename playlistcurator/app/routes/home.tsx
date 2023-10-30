@@ -2,12 +2,15 @@ import type { MetaFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
 import Navbar from "~/Components/Navbar.jsx";
 import Playlistbox from "~/Components/PlaylistBox.jsx";
+import { SpotifyAPIController } from "~/api/spotifyAPIController";
 
 import { useOptionalUser } from "~/utils";
 
 export const meta: MetaFunction = () => [{ title: "Remix Notes" }];
 
 export default function Home() {
+    const spotifyController = new SpotifyAPIController();
+    //console.log(spotifyController.getCurrentUser());
   return (
     <div className="min-h-screen bg-black text-[#1ed760]">
       <Navbar />

@@ -8,6 +8,27 @@ export default {
   server: "server.ts",
   serverBuildPath: "server/index.mjs",
   serverModuleFormat: "esm",
+  browserNodeBuiltinsPolyfill: {
+    modules: {
+        buffer: true, // Provide a JSPM polyfill
+        fs: "empty", // Provide an empty polyfill
+        util: true,
+        punycode: true,
+        querystring: true,
+        events: true,
+        crypto: true,
+        https: true,
+        http: true,
+        http2: true,
+        stream: true,
+        assert: true,
+        zlib: true,
+        path: true,
+      },
+      globals: {
+        Buffer: true,
+      },
+  },
   routes: (defineRoutes) =>
     defineRoutes((route) => {
       if (process.env.NODE_ENV === "production") return;
@@ -22,3 +43,4 @@ export default {
       );
     }),
 };
+
