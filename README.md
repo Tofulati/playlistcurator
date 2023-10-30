@@ -2,6 +2,7 @@
 
 Website Deployed!: https://kukw69e502.execute-api.us-west-2.amazonaws.com/
 
+![Homepage](image_2023-10-29_193046247.png)
 
 ## Description 
 At Playlist Curator, we believe that every song tells a story, and every story has an audience. Through advanced artificial intelligence, we're not just curating playlists; we're orchestrating symphonies of connections.
